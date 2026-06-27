@@ -3,11 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from app.db.init_db import init_db
+from app.api.auth import router as auth_router
 
 # Create FastAPI app instance
-
-
-# ----------------------------
+   
+   
+# ---------------------------- 
 # Lifespan handler (modern way)
 # ----------------------------
 @asynccontextmanager
@@ -30,7 +31,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-
+app.include_router(auth_router)
 
 # ----------------------------
 # CORS (important for frontend)

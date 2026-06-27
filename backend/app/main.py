@@ -49,7 +49,7 @@ app.add_middleware(
 @app.get("/")
 def root():
     return {
-        "message": "ContextFlow AI Backend is running 🚀"
+        "message": "ContextFlow AI Backend is running "
     }
 
 

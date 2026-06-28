@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: contextflow_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: contextflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: contextflow_redis
+    ports:
+      - "6379:6379"
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: contextflow_qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes:
+  postgres_data:
+  qdrant_data:
+
+
+
+
+
+# ============================================================
+# DOCKER COMPOSE - INFRASTRUCTURE SUMMARY
+# ============================================================
+# 
+# WHAT THIS FILE DOES:
+#   Spins up 3 services needed for the FastAPI backend
+#
+# SERVICES:
+#   1. postgres  - Main relational database (users, orders, etc.)
+#   2. redis     - Cache & message broker (fast data, sessions)
+#   3. qdrant    - Vector database (AI embeddings, similarity search)
+#
+# HOW YOUR FASTAPI APP CONNECTS:
+#   postgres → postgresql://postgres:postgres@postgres:5432/contextflow
+#   redis    → redis://redis:6379
+#   qdrant   → http://qdrant:6333
+#
+# IMPORTANT NOTES:
+#   - Use container names as hostnames (e.g., "postgres" not "localhost")
+#   - Data persists in Docker volumes (postgres_data, qdrant_data)
+#   - Default credentials are for DEVELOPMENT only!
+#   - Ports mapped to localhost for external access
+#
+# COMMANDS:
+#   docker compose up -d      # Start all services
+#   docker compose down       # Stop all services
+#   docker compose down -v    # Stop AND delete data (⚠️ destructive)
+#   docker compose logs -f    # View all logs
+#   docker compose ps         # Check running status
+# ============================================================

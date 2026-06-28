@@ -17,6 +17,7 @@ def get_current_user(
     try:
         payload = decode_access_token(token)
         user_id: str = payload.get("sub")
+        # We defined sub:id while creating user. 
 
         if user_id is None:
             raise HTTPException(status_code=401, detail="Invalid token")
@@ -25,6 +26,8 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="Invalid token")
 
     user = db.query(User).filter(User.id == user_id).first()
+    # SELECT * FROM users WHERE id = 'd3bfcf30-1793-4e87-8100-6002e56e1fe6' LIMIT 1;
+    # Iterates through every user id in db and checks if it matches the user_id from the token. If a match is found, it returns the user object. If no match is found, it returns None.
 
     if not user:
         raise HTTPException(status_code=401, detail="User not found")

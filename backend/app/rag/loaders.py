@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from langchain_core.documents import Document
 from langchain_community.document_loaders import (
     PyPDFLoader,
     TextLoader,
@@ -8,27 +9,29 @@ from langchain_community.document_loaders import (
 )
 
 
-class DocumentLoader:
+def load_document(file_path: str) -> list[Document]:
+    """
+    Load a supported document using the appropriate LangChain loader.
+    """
 
-    @staticmethod
-    def load(file_path: str):
-        path = Path(file_path)
+    extension = Path(file_path).suffix.lower()
 
-        extension = path.suffix.lower()
+    loaders = {
+        ".pdf": PyPDFLoader,
+        ".txt": TextLoader,
+        ".docx": Docx2txtLoader,
+        ".md": UnstructuredMarkdownLoader,
+        ".markdown": UnstructuredMarkdownLoader,
+    }
 
-        if extension == ".pdf":
-            loader = PyPDFLoader(file_path)
+    if extension not in loaders:
+        raise ValueError(f"Unsupported file type: {extension}")
 
-        elif extension == ".txt":
-            loader = TextLoader(file_path, encoding="utf-8")
+    loader_class = loaders[extension]
 
-        elif extension == ".docx":
-            loader = Docx2txtLoader(file_path)
+    if extension == ".txt":
+        loader = loader_class(file_path, encoding="utf-8")
+    else:
+        loader = loader_class(file_path)
 
-        elif extension in [".md", ".markdown"]:
-            loader = UnstructuredMarkdownLoader(file_path)
-
-        else:
-            raise ValueError(f"Unsupported file type: {extension}")
-
-        return loader.load()
+    return loader.load()

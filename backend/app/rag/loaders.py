@@ -41,4 +41,11 @@ def load_document(file_path: str) -> list[Document]:
 
 """
 load_document function takes a file path as input, Path object is used to extract the file extension using suffix attribute. It then checks if the extension is in the loaders dictionary, which maps file extensions to their corresponding LangChain loader classes. If the extension is supported, it initializes the appropriate loader class and loads the document, returning a list of Document objects.
+
+
+
+How does each document object in the output list look like?
+page 1 of PDF → Document(page_content="<all text on page 1>", metadata={"page": 0, ...})
+page 2 of PDF → Document(page_content="<all text on page 2>", metadata={"page": 1, ...})
+The splitting is sequential and 1:1 with pages, full stop.
 """

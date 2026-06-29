@@ -51,6 +51,7 @@ def ingest_document(
 
         metadata.append(chunk_metadata)
 
+    # vectorstore.py entrypoint 
     add_documents(
         docs=chunks,
         metadata=metadata,

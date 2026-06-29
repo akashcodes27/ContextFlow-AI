@@ -35,3 +35,10 @@ def load_document(file_path: str) -> list[Document]:
         loader = loader_class(file_path)
 
     return loader.load()
+
+
+
+
+"""
+load_document function takes a file path as input, Path object is used to extract the file extension using suffix attribute. It then checks if the extension is in the loaders dictionary, which maps file extensions to their corresponding LangChain loader classes. If the extension is supported, it initializes the appropriate loader class and loads the document, returning a list of Document objects.
+"""

@@ -4,36 +4,41 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-from app.config import (
-    QDRANT_HOST,
-    QDRANT_PORT,
-)
+# from app.config import (
+#     QDRANT_HOST,
+#     QDRANT_PORT,
+# )
 
 from app.rag.embeddings import get_embeddings
+from app.db.qdrant_client import qdrant_client as client
 
 
 COLLECTION_NAME = "contextflow_docs"
+# A collection in Qdrant is like a table in PostgreSQL — it holds related vectors that can be searched together.
 
 
 # ---------------------------------------------------
 # Qdrant Client
 # ---------------------------------------------------
 
-client = QdrantClient(
-    host=QDRANT_HOST,
-    port=QDRANT_PORT,
-)
+# client = QdrantClient(
+#     host=QDRANT_HOST,
+#     port=QDRANT_PORT,
+# )
 
 
 # ---------------------------------------------------
 # Collection
 # ---------------------------------------------------
 
+
+
+# Purpose: Check if a collection exists in Qdrant, if not, create one. 
 def ensure_collection():
     """
     Create the collection if it doesn't exist.
     """
-
+    # A collection in Qdrant is like a table in PostgreSQL — it holds related vectors that can be searched together.
     collections = client.get_collections().collections
 
     collection_names = {
@@ -49,6 +54,8 @@ def ensure_collection():
                 size=1024,
                 distance=models.Distance.COSINE,
             ),
+            # The distance metric is COSINE, which measures similarity based on the angle between vectors
+            # size value depends on the embedding model used. 
         )
 
 

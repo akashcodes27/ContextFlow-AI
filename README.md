@@ -18,3 +18,19 @@ contextflow=# \d users
 
 Command enables us to write SQL queries against the Postgres DB 
 docker compose exec postgres psql -U postgres -d contextflow 
+
+
+
+
+
+RAG dependencies 
+pip install langchain
+pip install langgraph
+pip install langchain-community
+pip install langchain-huggingface
+pip install langchain-qdrant
+pip install sentence-transformers
+pip install pypdf
+pip install python-docx
+pip install unstructured
+pip install fastembed

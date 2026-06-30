@@ -2,12 +2,17 @@ from langchain_openai import ChatOpenAI
 
 from app.rag.retriever import retrieve_documents
 from app.rag.prompts import RAG_PROMPT
+from app.config import (
+    DEEPSEEK_MODEL, DEEPSEEK_API_KEY)
 
 
-# TEMP LLM (we will swap to DeepSeek later)
+# DeepSeek-V4-Flash via OpenAI-compatible API
 llm = ChatOpenAI(
-    model="gpt-4o-mini",
-    temperature=0.2
+    model=DEEPSEEK_MODEL,
+    openai_api_key=DEEPSEEK_API_KEY,
+    openai_api_base="https://api.deepseek.com/v1",
+    temperature=0.2,
+    max_tokens=4096,
 )
 
 
